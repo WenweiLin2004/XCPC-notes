@@ -1,0 +1,21 @@
+{
+  "name": "xcpc-notes",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "import": "node scripts/import-posts.mjs",
+    "gen": "node scripts/generate-index.mjs && node scripts/generate-sidebar.mjs",
+    "sync": "npm run import && npm run gen",
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "@mdit/plugin-katex": "latest",
+    "katex": "latest",
+    "typescript": "latest",
+    "vitepress": "latest",
+    "vue": "latest"
+  }
+}
