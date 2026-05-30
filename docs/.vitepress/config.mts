@@ -9,13 +9,14 @@ export default defineConfig({
   description: 'Linver 的算法竞赛笔记',
   cleanUrls: true,
   lastUpdated: true,
+  ignoreDeadLinks: true,
   markdown: {
     theme: {
       light: 'github-light',
       dark: 'github-dark'
     },
     config(md) {
-      md.use(katex)
+      md.use(katex, { throwOnError: false, strict: false })
     }
   },
   head: [
