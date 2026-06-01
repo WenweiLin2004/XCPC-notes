@@ -4,31 +4,20 @@ import './style.css'
 
 function initInteractions() {
   if (typeof window === 'undefined') return
-  if (document.querySelector('.cursor-glow')) return
+  const w = window as unknown as { __xcpcFx?: boolean }
+  if (w.__xcpcFx) return
+  w.__xcpcFx = true
 
-  const glow = document.createElement('div')
-  glow.className = 'cursor-glow'
-  document.body.appendChild(glow)
-
-  let raf = 0
-  let tx = window.innerWidth / 2
-  let ty = window.innerHeight / 2
-  let cx = tx
-  let cy = ty
-
-  const render = () => {
-    cx += (tx - cx) * 0.18
-    cy += (ty - cy) * 0.18
-    glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`
-    raf = requestAnimationFrame(render)
+  // ---- animated background ----
+  if (!document.querySelector('.xcpc-bg')) {
+    const bg = document.createElement('div')
+    bg.className = 'xcpc-bg'
+    bg.innerHTML = '<span></span><span></span><span></span>'
+    document.body.appendChild(bg)
   }
-  render()
 
+  // ---- feature card spotlight (home) ----
   window.addEventListener('pointermove', (e) => {
-    tx = e.clientX
-    ty = e.clientY
-    glow.classList.add('is-visible')
-
     const card = (e.target as HTMLElement)?.closest?.('.VPFeature') as HTMLElement | null
     if (card) {
       const rect = card.getBoundingClientRect()
@@ -37,8 +26,37 @@ function initInteractions() {
     }
   })
 
-  window.addEventListener('pointerleave', () => glow.classList.remove('is-visible'))
-  window.addEventListener('blur', () => glow.classList.remove('is-visible'))
+  // ---- click burst (博客园 style) ----
+  const colors = ['#2563eb', '#7c3aed', '#3b82f6', '#f59e0b', '#ef4444', '#10b981', '#06b6d4']
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  if (reduce) return
+
+  window.addEventListener('pointerdown', (e) => {
+    const x = e.clientX
+    const y = e.clientY
+
+    const ripple = document.createElement('span')
+    ripple.className = 'xcpc-ripple'
+    ripple.style.left = `${x}px`
+    ripple.style.top = `${y}px`
+    document.body.appendChild(ripple)
+    ripple.addEventListener('animationend', () => ripple.remove())
+
+    const n = 9
+    for (let i = 0; i < n; i++) {
+      const p = document.createElement('span')
+      p.className = 'xcpc-particle'
+      const ang = (Math.PI * 2 * i) / n + Math.random() * 0.5
+      const dist = 38 + Math.random() * 34
+      p.style.left = `${x}px`
+      p.style.top = `${y}px`
+      p.style.setProperty('--dx', `${Math.cos(ang) * dist}px`)
+      p.style.setProperty('--dy', `${Math.sin(ang) * dist}px`)
+      p.style.background = colors[(Math.random() * colors.length) | 0]
+      document.body.appendChild(p)
+      p.addEventListener('animationend', () => p.remove())
+    }
+  })
 }
 
 export default {
