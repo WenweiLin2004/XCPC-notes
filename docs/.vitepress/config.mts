@@ -67,7 +67,7 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/Linver04/XCPC-notes' }
     ],
     footer: {
-      message: '仅以此站，纪念三年竞赛时光',
+      message: '',
       copyright: 'Wenwei Lin · 2022 — 2025'
     },
     lastUpdated: {
