@@ -5,8 +5,7 @@ const { frontmatter } = useData()
 </script>
 
 <template>
-  <div v-if="frontmatter.date || frontmatter.sourceFile" class="post-meta">
-    <span v-if="frontmatter.date">发布时间：{{ frontmatter.date }}</span>
-    <span v-if="frontmatter.sourceFile">源文件：{{ frontmatter.sourceFile }}</span>
+  <div v-if="frontmatter.date" class="post-meta">
+    <span>发布时间：{{ frontmatter.date }}</span>
   </div>
 </template>

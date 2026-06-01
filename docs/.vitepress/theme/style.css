@@ -234,6 +234,71 @@
   border: 2px solid var(--vp-c-bg);
 }
 
+/* ---------- paginated post list ---------- */
+.post-list table {
+  display: table;
+  width: 100%;
+  margin: 8px 0 0;
+}
+
+.post-list .pl-date-h,
+.post-list .pl-date {
+  white-space: nowrap;
+  width: 1%;
+  color: var(--vp-c-text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.post-list .pl-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+}
+
+.post-list .pl-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.post-list .pl-btn:hover:not(:disabled) {
+  border-color: var(--vp-c-brand-2);
+  color: var(--vp-c-brand-1);
+  transform: translateY(-1px);
+}
+
+.post-list .pl-btn.pl-active {
+  background: linear-gradient(120deg, var(--vp-c-brand-1), #7c3aed);
+  border-color: transparent;
+  color: #fff;
+}
+
+.post-list .pl-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.post-list .pl-ellipsis {
+  padding: 0 2px;
+  color: var(--vp-c-text-3);
+}
+
+.post-list .pl-info {
+  margin-left: auto;
+  color: var(--vp-c-text-2);
+  font-size: 12.5px;
+}
+
 /* ---------- animated background ---------- */
 .xcpc-bg {
   position: fixed;
