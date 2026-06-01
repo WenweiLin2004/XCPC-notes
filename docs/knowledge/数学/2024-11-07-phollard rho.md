@@ -13,9 +13,9 @@ tags: ["知识点", "数学"]
 # phollard rho
 
 ## Miller-Rabin
-* 定理一：$ a^{p-1} \equiv 1(mod\ p) $
-* 定理二：$ x^2 \equiv 1(mod\ p)的解为1或p-1 $
-* 令 $ x=a^{\frac{p-1}{2}},a^{\frac{p-1}{4}},... $
+* 定理一：$a^{p-1} \equiv 1(mod\ p)$
+* 定理二：$x^2 \equiv 1(mod\ p)的解为1或p-1$
+* 令 $x=a^{\frac{p-1}{2}},a^{\frac{p-1}{4}},...$
 * 只要有一个x满足定理二则为质数
 ```cpp
 __int128 qpow(__int128 a,int b,int mod){

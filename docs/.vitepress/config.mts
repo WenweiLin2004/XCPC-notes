@@ -6,7 +6,7 @@ export default defineConfig({
   base: '/XCPC-notes/',
   lang: 'zh-CN',
   title: 'XCPC Notes',
-  description: 'Linver 的算法竞赛笔记',
+  description: '算法竞赛笔记',
   cleanUrls: true,
   lastUpdated: true,
   ignoreDeadLinks: true,
@@ -67,8 +67,8 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/Linver04/XCPC-notes' }
     ],
     footer: {
-      message: 'Built with VitePress',
-      copyright: 'Copyright © Linver'
+      message: '仅以此站，纪念三年竞赛时光',
+      copyright: 'Wenwei Lin · 2022 — 2025'
     },
     lastUpdated: {
       text: '最后更新',

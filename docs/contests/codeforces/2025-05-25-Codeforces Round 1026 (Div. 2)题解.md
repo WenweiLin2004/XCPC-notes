@@ -12,7 +12,7 @@ tags: ["竞赛题解", "Codeforces"]
 <PostMeta />
 [题目链接](https://codeforces.com/contest/2110)
 # A. Fashionable Array
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/b0d848816c5646e38a32f96645a85b3f.png)
+![在这里插入图片描述](/assets/img/remote/040b91e921.png)
 题意既让min和max同奇偶
 那么排序一下，分别处理奇偶数的最小坐标和最大坐标即可
 ```cpp
@@ -36,7 +36,7 @@ void solve(){
 }
 ```
 # B. Down with Brackets
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/e4a659ea4df244fd934981e25bd5aecd.png)
+![在这里插入图片描述](/assets/img/remote/e9e0a38e05.png)
 发现最简单的情况`()()`拿掉最左和最右的括号就会变得不平衡`)(`
 因此直接判断是否可以分成两个平衡括号
 ```cpp
@@ -55,7 +55,7 @@ void solve(){
 }
 ```
 # C. Racing
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/e7e317d6116b41aca016f690827629b4.png)
+![在这里插入图片描述](/assets/img/remote/bd0c82a632.png)
 首先我们先判断合不合法
 可以维护每个地方的最小高度和最大高度，这很容易做出来
 
@@ -103,7 +103,7 @@ void solve(){
 }
 ```
 # D. Fewer Batteries
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/4e55fc98290e46f687c9016688d026cb.png)
+![在这里插入图片描述](/assets/img/remote/bc82f4c1f6.png)
 一眼题，感觉比C简单多了
 很容易想到二分
 check就是跑一次最长路看能否到达n即可，因为`s<t`，因此直接线性扫一遍
@@ -142,7 +142,7 @@ void solve(){
 }
 ```
 # E. Melody(欧拉回路)
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/63f0c1f473e74f299e299f9efc9504c0.png)
+![在这里插入图片描述](/assets/img/remote/58c3dace26.png)
 大概可以变成这样一个问题，$n$个物品两个属性$v,p$问是否存在一个排列使得任意相邻的两个物品$v$相同或$p$相同，相邻的三个物品不能同时$v$相同或者$p$相同
 
 只考虑前面的限制，看[UVA10129](https://www.luogu.com.cn/problem/UVA10129)这道题，基本就一模一样了，将物品看成一条边，连接$v,p$，转化为找到一条欧拉回路
@@ -229,4 +229,4 @@ void solve(){
 }
 ```
 # F. Faculty(数学)
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/3f8f12a89cf14cbd9b047f39bfeb7b0a.png)
+![在这里插入图片描述](/assets/img/remote/6530d9a360.png)

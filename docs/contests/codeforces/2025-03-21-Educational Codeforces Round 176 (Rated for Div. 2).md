@@ -53,7 +53,7 @@ signed main(){
 }
 ```
 # B - Array Recoloring
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/3722dea1a2874024a5109256a248daa4.png)
+![在这里插入图片描述](/assets/img/remote/5eb81c47a2.png)
 * 选择top k+1个元素即可
 * 特判k=1，此时只能中间选一个，然后选两边中的一个；或者两边全选
 ```cpp
@@ -98,7 +98,7 @@ signed main(){
 }
 ```
 # C - Two Colors
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/d8f3fa0346ac4b78bba24ba95c097ca5.png)
+![在这里插入图片描述](/assets/img/remote/40ecf9b7e1.png)
 * 假设两种颜色的数量为$x,y$，那么这两个的方案为$\min(n-1,y)-\max(1,n-x)$,可以用树状数组做维护后面max的总和和数量，就可以转移
 ```cpp
 #include<bits/stdc++.h>
@@ -169,7 +169,7 @@ signed main(){
 }
 ```
 # D - Equalization
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/b0aa1875510d47518337f21c26d4083b.png)
+![在这里插入图片描述](/assets/img/remote/1fd7ee81cf.png)
 * 相当于$x$和$y$右移若干位相等，且每个右移的次数只能用一次
 * 每个只能选一次，相当于是个01二维背包问题，先预处理出数组$dp_{i,j}$表示第一个数右移$x$位第二个数右移$j$位的最小代价(这里滚动滚掉第一维了)
 * 计算两个数二进制的公共前缀，然后算出$x$需要右移$a$位，$y$需要右移$b$位，那么答案就是$dp_{a,b}$？
@@ -259,7 +259,7 @@ signed main(){
 }
 ```
 # E - XOR Matrix
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/0fc2617c8f074a52b56e2c735ada9323.png)
+![在这里插入图片描述](/assets/img/remote/780aea3162.png)
 * 显然,a、b两个数组都不应该存在大于2个不同的数，否则异或出来不同的数必定大于2
 * 考虑两边数组都选一个，那么答案显然为$(A+1)(B+1)$
 * 如果a有1个，贡献为$A+1$,b有2个，那么从$B+1$个选2个为$\binom{B+1}{2}$，然后每个位置可以任意选两个中的一个，除去全0的状态和全1的状态，有$2^m-2$,因此方案为$(A+1)\binom{B+1}{2}(2^m-2)$

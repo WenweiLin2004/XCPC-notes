@@ -11,13 +11,13 @@ tags: ["竞赛题解", "Codeforces"]
 
 <PostMeta />
 # C - Asuna and the Mosquitoes
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/8a1947ed899f46fab329eaf990055619.png)
+![在这里插入图片描述](/assets/img/remote/b45371f46a.png)
 * 选定一个奇数，可以吃掉所有偶数，对于一个偶数，可以将剩余的其他奇数吃掉只剩1
 * 答案就是$sum-odd+1$
 
 
 # E - She knows...
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/380020bcfe6242b684a1db12b0a569cb.png)
+![在这里插入图片描述](/assets/img/remote/855e5eb539.png)
 * 题意可以转化为只考虑黑色单元格，他和白色的接触边数是多少，假设黑色连通块不连接边界，显然该连通块贡献必定为偶数。因此$1 \lt i  \lt n,1 \lt j \lt m$可以随便选，剩余的格子，四个角落的格子接触的边数也是偶数，贡献忽略不计，那么剩下的格子$2(n-2)+2(m-2)$就是决定性因素
 * 假设填满了，如果为黑色格子数是偶数，那么接触边也是偶数，答案为$2^{nm-k}$,否则$0$
 * 否则的话$nm-k-1$个格子可以乱填，剩余一个格子可以用来决定是黑色还是白色，答案为$2^{nm-k-1}$ 
@@ -74,7 +74,7 @@ signed main(){
 }
 ```
 # F. Andryusha and CCB
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/91cafccd8fcc45459df4552376279aed.png)
+![在这里插入图片描述](/assets/img/remote/4cb884afd4.png)
 * 假设为`01010101`这种，那么美丽值为$m$的子串，即长度为$m+1$的子串
 * 将原字符串分块，分为长度大于1和等于1的，比如`00010111`变成`2112`
 * 那么就可以得出一种解法，对于一个确定的美丽值$m \geq 1$,分成$k$个部分，他的范围在$[l,r]$内

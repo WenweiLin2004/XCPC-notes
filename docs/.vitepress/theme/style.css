@@ -2,29 +2,61 @@
   --vp-c-brand-1: #2563eb;
   --vp-c-brand-2: #3b82f6;
   --vp-c-brand-3: #60a5fa;
+  --vp-c-brand-soft: rgba(37, 99, 235, 0.14);
+
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: linear-gradient(120deg, #2563eb 20%, #7c3aed);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #2563eb55 30%, #7c3aed55);
+  --vp-home-hero-image-filter: blur(48px);
 }
 
 .dark {
-  --vp-c-brand-1: #60a5fa;
-  --vp-c-brand-2: #3b82f6;
-  --vp-c-brand-3: #2563eb;
+  --vp-c-brand-1: #7aa2ff;
+  --vp-c-brand-2: #5b86ff;
+  --vp-c-brand-3: #3b6bff;
+  --vp-c-brand-soft: rgba(122, 162, 255, 0.16);
 }
 
+/* ---------- layout width ---------- */
 .VPDoc .content-container {
-  max-width: 960px !important;
+  max-width: 968px !important;
 }
 
+/* ---------- headings ---------- */
 .vp-doc h1 {
   letter-spacing: -0.02em;
+  background: linear-gradient(120deg, var(--vp-c-brand-1), #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .vp-doc h2 {
   border-top: 1px solid var(--vp-c-divider);
   padding-top: 24px;
+  position: relative;
 }
 
+.vp-doc h2::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: -14px;
+  width: 4px;
+  height: 1.1em;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--vp-c-brand-1), #7c3aed);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.vp-doc h2:hover::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---------- tables ---------- */
 .vp-doc table {
   display: table;
   width: 100%;
@@ -35,22 +67,211 @@
   white-space: normal;
 }
 
+.vp-doc tr {
+  transition: background-color 0.2s ease;
+}
+
+.vp-doc tr:hover {
+  background-color: var(--vp-c-brand-soft);
+}
+
+/* ---------- code blocks ---------- */
 .vp-doc div[class*='language-'] {
   margin-top: 18px;
   margin-bottom: 18px;
+  border-radius: 12px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
+.vp-doc div[class*='language-']:hover {
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.16);
+}
+
+/* ---------- links ---------- */
+.vp-doc a {
+  text-decoration: none;
+  background-image: linear-gradient(var(--vp-c-brand-1), var(--vp-c-brand-1));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.25s ease, color 0.25s ease;
+}
+
+.vp-doc a:hover {
+  background-size: 100% 1px;
+}
+
+/* ---------- katex overflow ---------- */
 .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
   padding: 8px 0;
 }
 
+/* ---------- post meta ---------- */
 .post-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 16px;
   margin: -8px 0 24px;
+  padding: 8px 14px;
   color: var(--vp-c-text-2);
-  font-size: 14px;
+  font-size: 13px;
+  border-radius: 10px;
+  background: var(--vp-c-brand-soft);
+  border: 1px solid var(--vp-c-divider);
+}
+
+.post-meta span {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ---------- home hero ---------- */
+.VPHero .name,
+.VPHero .text {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.VPHero .text {
+  animation-delay: 0.08s;
+}
+
+.VPHero .tagline {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both;
+}
+
+.VPHero .actions {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- home feature cards ---------- */
+.VPFeature {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.VPFeature::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%), var(--vp-c-brand-soft), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.VPFeature:hover {
+  transform: translateY(-6px);
+  border-color: var(--vp-c-brand-2);
+  box-shadow: 0 14px 40px rgba(37, 99, 235, 0.18);
+}
+
+.VPFeature:hover::after {
+  opacity: 1;
+}
+
+/* ---------- buttons ---------- */
+.VPButton {
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.VPButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.28);
+}
+
+/* ---------- memorial block on home ---------- */
+.memorial {
+  max-width: 760px;
+  margin: 8px auto 64px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.memorial blockquote {
+  border: none;
+  font-style: italic;
+  color: var(--vp-c-text-2);
+  line-height: 2;
+}
+
+/* ---------- sidebar items ---------- */
+.VPSidebarItem .text {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.VPSidebarItem.is-link > .item:hover .text {
+  transform: translateX(3px);
+}
+
+/* ---------- scrollbar ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--vp-c-brand-3) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--vp-c-brand-2), #7c3aed);
+  border-radius: 8px;
+  border: 2px solid var(--vp-c-bg);
+}
+
+/* ---------- cursor glow ---------- */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.10), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: transform;
+  mix-blend-mode: normal;
+}
+
+.dark .cursor-glow {
+  background: radial-gradient(circle, rgba(122, 162, 255, 0.12), transparent 60%);
+}
+
+.cursor-glow.is-visible {
+  opacity: 1;
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .VPHero .name,
+  .VPHero .text,
+  .VPHero .tagline,
+  .VPHero .actions,
+  .VPFeature,
+  .VPButton {
+    animation: none !important;
+    transition: none !important;
+  }
+  .cursor-glow {
+    display: none;
+  }
 }

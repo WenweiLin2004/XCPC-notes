@@ -1,0 +1,384 @@
+---
+title: 'KD-Tree'
+date: "2024-07-31"
+sourceFile: "2024-07-31-算法模板.md"
+category: "templates"
+---
+
+<PostMeta />
+
+# KD-Tree
+
+### KD-Tree模板(最近点对)
+```cpp
+struct Node{
+    int ls,rs;// 左右儿子
+    int id;// 点的唯一标识
+    vector<int> v,L,R;// 当前点坐标，当前X，Y的范围
+    Node(){
+        ls=rs=0;
+        v.assign(2,INF);
+        L.assign(2,INF);
+        R.assign(2,INF);
+    }
+    Node(int x,int y,int id=-1):id(id){
+        ls=rs=0;
+        v={x,y};
+        L.assign(2,INF);
+        R.assign(2,INF);
+    }
+};
+struct KD_Tree{
+    vector<Node> t;
+    int ans=INF;
+    int root;// 根
+    Node cur;// 当前查询点
+    void init(vector<Node> &node,int n){
+        t=node;
+        sort(t.begin()+1,t.end(),[&](const Node &a,const Node &b){
+            if(a.v[0]==b.v[0])return a.v[1]<b.v[1];
+            return a.v[0]<b.v[0];
+        });
+        root=build(1,n);
+    }
+    #define sq(x) (x)*(x)
+    int dis_to_point(int p){
+        if(!p)return 0;
+        int s=0;
+        for(int i=0;i<2;i++){
+            s+=sq(cur.v[i]-t[p].v[i]);
+        }
+        return s;
+    }
+    int dis_to_range(int p){
+        if(!p)return INF;
+        int s=0;
+        for(int i=0;i<2;i++){
+            s+=sq(max(cur.v[i]-t[p].R[i],0ll))+sq(max(t[p].L[i]-cur.v[i],0ll));
+        }
+        return s;
+    }
+    void pushup(int p){
+        int ls=t[p].ls,rs=t[p].rs;
+        for(int i=0;i<2;i++){
+            t[p].L[i]=t[p].R[i]=t[p].v[i];
+            if(ls){
+                t[p].L[i]=min(t[p].L[i],t[ls].L[i]);
+                t[p].R[i]=max(t[p].R[i],t[ls].R[i]);
+            }
+            if(rs){
+                t[p].L[i]=min(t[p].L[i],t[rs].L[i]);
+                t[p].R[i]=max(t[p].R[i],t[rs].R[i]);
+            }
+        }
+    }
+    int build(int l,int r){
+        if(l>r)return 0;
+        if(l==r){
+            pushup(l);
+            return l;
+        }
+        int mid=l+r>>1;
+        double avg[2]={0.0,0.0},var[2]={0.0,0.0};// average variance
+        for(int i=0;i<2;i++){
+            for(int j=l;j<=r;j++)avg[i]+=t[j].v[i];
+            avg[i]/=1.0*(r-l+1);
+            for(int j=l;j<=r;j++)var[i]+=sq(t[j].v[i]-avg[i]);
+        }
+        int k=var[0]<var[1];
+        nth_element(t.begin()+l,t.begin()+mid,t.begin()+r+1,[&](const Node &a,const Node &b){
+            return a.v[k]<b.v[k];
+        });
+        t[mid].ls=build(l,mid-1);
+        t[mid].rs=build(mid+1,r);
+        pushup(mid);
+        return mid;
+    }
+    void query(int p){
+        if(!p)return;
+        if(cur.id!=t[p].id)ans=min(ans,dis_to_point(p));
+        int dl=dis_to_range(t[p].ls),dr=dis_to_range(t[p].rs);
+        if(dl<dr){
+            if(dl<ans)query(t[p].ls);
+            if(dr<ans)query(t[p].rs);
+        }
+        else{
+            if(dr<ans)query(t[p].rs);
+            if(dl<ans)query(t[p].ls);
+        }
+    }  
+    int get_nearest_point_dis(){
+        ans=INF;
+        for(int i=1;i<t.size();i++){
+            cur=t[i];
+            query(root);
+        }
+        return ans;
+    }
+};
+void solve(){
+    int n;
+    cin>>n;
+    vector<Node> t(n+1);
+    for(int i=1;i<=n;i++){
+        int x,y;
+        cin>>x>>y;
+        t[i]=Node(x,y,i);
+    }
+    KD_Tree kdt;
+    kdt.init(t,n);
+    cout<<kdt.get_nearest_point_dis()<<"\n";
+}
+```
+### K远点对
+```cpp
+struct Node{
+    int ls,rs;// 左右儿子
+    int id;// 点的唯一标识
+    vector<int> v,L,R;// 当前点坐标，当前X，Y的范围
+    Node(){
+        ls=rs=0;
+        v.assign(2,INF);
+        L.assign(2,INF);
+        R.assign(2,INF);
+    }
+    Node(int x,int y,int id=-1):id(id){
+        ls=rs=0;
+        v={x,y};
+        L.assign(2,INF);
+        R.assign(2,INF);
+    }
+};
+struct KD_Tree{
+    vector<Node> t;
+    int root;// 根
+    Node cur;// 当前查询点
+
+    priority_queue<int,vector<int>,greater<>> pq;
+    int sz;
+    
+    void init(vector<Node> &node,int n){
+        t=node;
+        sort(t.begin()+1,t.end(),[&](const Node &a,const Node &b){
+            if(a.v[0]==b.v[0])return a.v[1]<b.v[1];
+            return a.v[0]<b.v[0];
+        });
+        root=build(1,n);
+    }
+    #define sq(x) (x)*(x)
+    int dis_to_point(int p){
+        if(!p)return 0;
+        int s=0;
+        for(int i=0;i<2;i++){
+            s+=sq(cur.v[i]-t[p].v[i]);
+        }
+        return s;
+    }
+    int dis_to_range(int p){// 最远
+        if(!p)return 0;
+        int s=0;
+        for(int i=0;i<2;i++){
+            s+=max(sq(cur.v[i]-t[p].L[i]),sq(cur.v[i]-t[p].R[i]));
+        }
+        return s;
+    }
+    void pushup(int p){
+        int ls=t[p].ls,rs=t[p].rs;
+        for(int i=0;i<2;i++){
+            t[p].L[i]=t[p].R[i]=t[p].v[i];
+            if(ls){
+                t[p].L[i]=min(t[p].L[i],t[ls].L[i]);
+                t[p].R[i]=max(t[p].R[i],t[ls].R[i]);
+            }
+            if(rs){
+                t[p].L[i]=min(t[p].L[i],t[rs].L[i]);
+                t[p].R[i]=max(t[p].R[i],t[rs].R[i]);
+            }
+        }
+    }
+    int build(int l,int r){
+        if(l>r)return 0;
+        if(l==r){
+            pushup(l);
+            return l;
+        }
+        int mid=l+r>>1;
+        double avg[2]={0.0,0.0},var[2]={0.0,0.0};// average variance
+        for(int i=0;i<2;i++){
+            for(int j=l;j<=r;j++)avg[i]+=t[j].v[i];
+            avg[i]/=1.0*(r-l+1);
+            for(int j=l;j<=r;j++)var[i]+=sq(t[j].v[i]-avg[i]);
+        }
+        int k=var[0]<var[1];
+        nth_element(t.begin()+l,t.begin()+mid,t.begin()+r+1,[&](const Node &a,const Node &b){
+            return a.v[k]<b.v[k];
+        });
+        t[mid].ls=build(l,mid-1);
+        t[mid].rs=build(mid+1,r);
+        pushup(mid);
+        return mid;
+    }
+    void query(int p){
+        if(!p)return;
+        if(cur.id!=t[p].id){
+            int dis=dis_to_point(p);
+            if(dis>pq.top())pq.pop(),pq.push(dis);
+        }
+        int dl=dis_to_range(t[p].ls),dr=dis_to_range(t[p].rs);
+        if(dl>dr){
+            if(dl>pq.top())query(t[p].ls);
+            if(dr>pq.top())query(t[p].rs);
+        }
+        else{
+            if(dr>pq.top())query(t[p].rs);         
+            if(dl>pq.top())query(t[p].ls);
+        }
+    }
+    int solve(int k){
+        while(!pq.empty())pq.pop();
+        for(int i=0;i<k;i++)pq.push(0);
+        sz=k;
+        for(int i=1;i<t.size();i++){
+            cur=t[i];
+            query(root);
+        }
+        return pq.top();
+    }
+};
+void solve(){
+    int n,k;
+    cin>>n>>k;
+    k*=2;
+    vector<Node> t(n+1);
+    for(int i=1;i<=n;i++){
+        int x,y;
+        cin>>x>>y;
+        t[i]=Node(x,y,i);
+    }
+    KD_Tree kdt;
+    kdt.init(t,n);
+    cout<<kdt.solve(k)<<"\n";
+}
+```
+### 维护矩阵信息(二进制分组)
+$ 查询：O(\sqrt n),插入总体：O(nlog^2n) $
+```cpp
+namespace KD_Tree{
+    struct Node{
+        int ls,rs;// 左右儿子
+        int v[2],L[2],R[2];// 点的坐标,最小值,最大值
+        int sum,val;// 当前子树的和,点的值
+        Node(){}
+        Node(int x,int y,int val=0):val(val){
+            ls=rs=0;
+            v[0]=L[0]=R[0]=x;
+            v[1]=L[1]=R[1]=y;
+        }
+    } t[N];
+    int root[30],ql[2],qr[2],n,cnt,b[N];
+    void pushup(int p){
+        int ls=t[p].ls,rs=t[p].rs;
+        t[p].sum=t[p].val+t[ls].sum+t[rs].sum;
+        for(int i=0;i<2;i++){
+            t[p].L[i]=t[p].R[i]=t[p].v[i];
+            if(ls){
+                t[p].L[i]=min(t[p].L[i],t[ls].L[i]);
+                t[p].R[i]=max(t[p].R[i],t[ls].R[i]);
+            }
+            if(rs){
+                t[p].L[i]=min(t[p].L[i],t[rs].L[i]);
+                t[p].R[i]=max(t[p].R[i],t[rs].R[i]);
+            }
+        }
+    }
+    #define sq(x) ((x)*(x))
+    int build(int l,int r){
+        if(l>r)return 0;
+        if(l==r){
+            pushup(b[l]);
+            return b[l];
+        }
+        int mid=l+r>>1;
+        double avg[2]={0.0,0.0},var[2]={0.0,0.0};// average variance
+        for(int i=0;i<2;i++){
+            for(int j=l;j<=r;j++)avg[i]+=t[b[j]].v[i];
+            avg[i]/=1.0*(r-l+1);
+            for(int j=l;j<=r;j++)var[i]+=sq(t[b[j]].v[i]-avg[i]);
+        }
+        int k=var[0]<var[1];
+        nth_element(b+l,b+mid,b+r+1,[&](const int &a,const int &b){
+            return t[a].v[k]<t[b].v[k];
+        });
+        int x=b[mid];
+        t[x].ls=build(l,mid-1);
+        t[x].rs=build(mid+1,r);
+        pushup(x);
+        return x;
+    }
+    int query(int p){
+        if(!p)return 0;
+        bool f=1;
+        for(int i=0;i<2;i++){
+            f&=(t[p].L[i]>=ql[i]&&t[p].R[i]<=qr[i]);
+        }
+        if(f)return t[p].sum;
+        for(int i=0;i<2;i++){
+            if(t[p].L[i]>qr[i]||t[p].R[i]<ql[i])return 0;
+        }
+        f=1;
+        for(int i=0;i<2;i++){
+            f&=(ql[i]<=t[p].v[i]&&t[p].v[i]<=qr[i]);
+        }
+        int ans=0;
+        if(f)ans=t[p].val;
+        return ans+query(t[p].ls)+query(t[p].rs);
+    }
+    void add(int &p){
+        if(!p)return;
+        b[++cnt]=p;
+        add(t[p].ls);
+        add(t[p].rs);
+        p=0;
+    }
+    void insert(int x,int y,int w){
+        t[++n]=Node(x,y,w);
+        b[cnt=1]=n;
+        for(int sz=0;;sz++){
+            if(!root[sz]){
+                root[sz]=build(1,cnt);
+                break;
+            }
+            else add(root[sz]);
+        }
+    }
+    int query(int x1,int y1,int x2,int y2){
+        ql[0]=x1,ql[1]=y1;
+        qr[0]=x2,qr[1]=y2;
+        int res=0;
+        for(int i=0;i<30;i++){
+            res+=query(root[i]);
+        }
+        return res;
+    }
+};
+using namespace KD_Tree;
+void solve(){
+    int n;
+    cin>>n;
+    int ans=0;
+    while(1){
+        int op,x,y,z,w;
+        cin>>op;
+        if(op==1){
+            cin>>x>>y>>z;
+            insert(x^ans,y^ans,z^ans);
+        }
+        else if(op==2){
+            cin>>x>>y>>z>>w;
+            ans=query(x^ans,y^ans,z^ans,w^ans);
+            cout<<ans<<'\n';
+        }
+        else break;
+    }
+}   
+```

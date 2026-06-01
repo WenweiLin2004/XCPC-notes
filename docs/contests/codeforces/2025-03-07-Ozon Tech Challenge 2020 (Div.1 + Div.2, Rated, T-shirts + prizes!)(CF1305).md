@@ -389,7 +389,7 @@ signed main(){
 }
 ```
 # G（最大生成树，blouvka，SOSDP）
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/76611495010d42379e4eabbeee19f5ea.png)
+![在这里插入图片描述](/assets/img/remote/17861ba48f.png)
 钦定$a_{n+1}=0$并且已染色，让边权为$a_i+a_j$，那么答案即为最大生成树-a的总和
 
 * 方法一：直接枚举每一个权值的子集，连边，$O(3^{18}n)$，2800-2900ms，非常极限，实现不好会t

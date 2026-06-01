@@ -13,7 +13,7 @@ tags: ["竞赛题解", "Codeforces"]
 CF2111,简单手速场
 
 # A. Energy Crystals
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/650c5d8fe66c430c9938548ff012b154.png)
+![在这里插入图片描述](/assets/img/remote/069e31d4ed.png)
 贪心，每次最小值会乘2，直接模拟即可，复杂度$O(\log n)$
 ```cpp
 void solve(){
@@ -32,8 +32,8 @@ void solve(){
 }
 ```
 # B. Fibonacci Cubes
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/6fbf4cce0e7749148962499dd56a2364.png)
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/499d5f6661e54b0d9a31ed0d9d320761.png)
+![在这里插入图片描述](/assets/img/remote/4d1d9be393.png)
+![在这里插入图片描述](/assets/img/remote/8745e8844f.png)
 从这个图可以发现如果$n \gt 1$，那么只要能容纳第$n$个方块和$n-1$个方块，由斐波那契数列的性质，必然能容纳全部的方块
 ```cpp
 void solve(){
@@ -59,7 +59,7 @@ void solve(){
 }
 ```
 # C. Equal Values
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/cd8c828b839040a1acd545bb0a44eb19.png)
+![在这里插入图片描述](/assets/img/remote/8e7519774b.png)
 很明显的选取一个连续段，对左右两边操作一次取最小(题意短，好像比ab简单)
 ```cpp
 void solve(){
@@ -78,7 +78,7 @@ void solve(){
 }
 ```
 # D. Creating a Schedule
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/c6cbecc79e74459db423933d94553b5c.png)
+![在这里插入图片描述](/assets/img/remote/fb7111a1c2.png)
 考虑只有两个组的情况，那么只需要两间教室，就可以满足。因此贪心两两配对最大和最小的肯定最优；如果多出一个组，如果还有两间教室，那么这个组单独享用两个教室，否则任意找到之前配对的两个教室和两个组，相互轮换即可(不会改变答案)
 
 ```cpp
@@ -166,7 +166,7 @@ signed main(){
 ```
 # E. Changing the String
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/133aba3b225f45a3886b0df23b8a7df3.png)
+![在这里插入图片描述](/assets/img/remote/4b604dd679.png)
 题意：
 * 有只包含`a,b,c`的字符串，`q`次操作，给出字符`x y`将字符串一个`x`替换成`y`，或者忽略操作，最后最小化字典序
 
@@ -267,8 +267,8 @@ void solve(){
 }
 ```
 # F. Puzzle
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/f6a72f29c25a4498b32b82c09f4e8a71.png)
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/2eb2c75756d242f785220b4a2d371710.png)
+![在这里插入图片描述](/assets/img/remote/2cedcc0964.png)
+![在这里插入图片描述](/assets/img/remote/50edc40b01.png)
 
 枚举周长，发现周长只和最大最小坐标有关，因此我们可以先使用一个`L`字形固定住周长，然后看面积是否合法，贪心地往里面放格子填满即可
 
