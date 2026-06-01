@@ -20,6 +20,7 @@ export default defineConfig({
     }
   },
   head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/XCPC-notes/logo.svg' }],
     ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css' }]
   ],
   themeConfig: {
